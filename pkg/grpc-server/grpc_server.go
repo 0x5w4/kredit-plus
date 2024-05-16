@@ -22,7 +22,7 @@ type GrpcServer struct {
 	Server   *grpc.Server
 	Listener net.Listener
 	Config   Config
-	Logger   logger.AppLogger
+	Logger   *logger.AppLogger
 }
 
 type Config struct {
@@ -36,9 +36,10 @@ const (
 	gRPCTimeout       = 15
 	maxConnectionAge  = 300
 	gRPCTime          = 600
+	maxReqSize        = 10e6
 )
 
-func NewGrpcServer(cfg Config, maxReqSize int, li interceptor.LoggerInterceptor, logger logger.AppLogger, opts ...grpc.ServerOption) (*GrpcServer, error) {
+func NewGrpcServer(cfg Config, li interceptor.LoggerInterceptor, logger *logger.AppLogger, opts ...grpc.ServerOption) (*GrpcServer, error) {
 	if cfg.Tls {
 		certFile := "ssl/certificates/server.crt" // => your certFile file path
 		keyFile := "ssl/server.pem"               // => your keyFile file patn

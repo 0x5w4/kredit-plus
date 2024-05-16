@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	grpcServer "github.com/0x5w4/kredit-plus/pkg/grpc-server"
 	"github.com/0x5w4/kredit-plus/pkg/logger"
 	interceptor "github.com/0x5w4/kredit-plus/pkg/logger-interceptor"
 	grpcRetry "github.com/grpc-ecosystem/go-grpc-middleware/retry"
@@ -22,17 +23,11 @@ const (
 
 type GrpcClient struct {
 	Connection *grpc.ClientConn
-	Config     Config
-	Logger     logger.AppLogger
+	Config     grpcServer.Config
+	Logger     *logger.AppLogger
 }
 
-type Config struct {
-	Network string
-	Port    string
-	Tls     bool
-}
-
-func NewGrpcClient(ctx context.Context, cfg Config, li interceptor.LoggerInterceptor, logger logger.AppLogger, opts ...grpc.DialOption) (*GrpcClient, error) {
+func NewGrpcClient(ctx context.Context, cfg grpcServer.Config, li interceptor.LoggerInterceptor, logger *logger.AppLogger, opts ...grpc.DialOption) (*GrpcClient, error) {
 	if cfg.Tls {
 		certFile := "ssl/certificates/ca.crt" // => file path location your certFile
 		creds, err := credentials.NewClientTLSFromFile(certFile, "")

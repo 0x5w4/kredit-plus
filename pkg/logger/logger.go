@@ -80,7 +80,7 @@ type GrpcFields struct {
 }
 
 // NewAppLogger creates a new AppLogger instance.
-func NewAppLogger(cfg *Config) (*AppLogger, error) {
+func NewAppLogger(cfg Config) (*AppLogger, error) {
 	var zapLevel zapcore.Level
 	switch cfg.Level {
 	case LogLevelDebug:

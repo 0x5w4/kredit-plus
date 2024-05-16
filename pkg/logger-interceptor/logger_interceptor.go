@@ -15,10 +15,10 @@ type LoggerInterceptor interface {
 }
 
 type loggerInterceptor struct {
-	logger logger.AppLogger
+	logger *logger.AppLogger
 }
 
-func NewLoggerInterceptor(logger logger.AppLogger) *loggerInterceptor {
+func NewLoggerInterceptor(logger *logger.AppLogger) *loggerInterceptor {
 	return &loggerInterceptor{logger: logger}
 }
 

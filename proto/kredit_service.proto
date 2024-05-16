@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+package proto;
+
+import "google/api/annotations.proto";
+import "kredit_message.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+option go_package = "github.com/0x5w4/kredit-plus/proto;proto";
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  security_definitions: {
+      security: {
+              key: "Bearer"
+              value: {
+                  type: TYPE_API_KEY
+                  in: IN_HEADER
+                  name: "Authorization"
+                  description: "Authentication token, prefixed by Bearer: Bearer <token>"
+              }
+      }
+  }
+  security: {
+      security_requirement: {
+          key: "Bearer"
+      }
+  }
+  info: {
+    title: "Kredit Plus Service",
+    version: "v1.0.0"
+  }
+  consumes: "application/json"
+  produces: "application/json"
+};
+
+service NotifService {
+  rpc HealthCheck (HealthCheckRequest) returns (HealthCheckResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/kredit-plus/health",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+        security: {} // Disable security key
+        tags: ["Check"]
+        summary: "Health Check"
+        description: "This API for check health server"
+    };
+  }
+
+  rpc CreateKonsumen (CreateKonsumenRequest) returns (CreateKonsumenResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/kredit-plus/konsumen",
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+        tags: ["Konsumen"]
+        summary: "Create a Konsumen"
+        description: "This API for create a konsumen"
+    };
+  }
+
+  rpc CreateLimit (CreateLimitRequest) returns (CreateLimitResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/kredit-plus/limit",
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+        tags: ["Limit"]
+        summary: "Create a Limit"
+        description: "This API for create a limit"
+    };
+  }
+
+  rpc GetLimit (GetLimitRequest) returns (GetLimitResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/kredit-plus/limit"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+        tags: ["Limit"]
+        summary: "Get a Limit"
+        description: "This API for get a Limit"
+    };
+  }
+
+
+  rpc CreateTransaksi (CreateLimitRequest) returns (CreateLimitResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/kredit-plus/transaksi",
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+        tags: ["Transaksi"]
+        summary: "Create a Transaksi"
+        description: "This API for create a transaksi"
+    };
+  }
+
+  rpc GetTransaksi (CreateKonsumenRequest) returns (CreateKonsumenResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/kredit-plus/transaksi"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+        tags: ["Transaksi"]
+        summary: "Get a Transaksi"
+        description: "This API for get a transaksi"
+    };
+  }
+}

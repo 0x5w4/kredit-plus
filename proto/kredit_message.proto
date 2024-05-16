@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package proto;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/0x5w4/kredit-plus/proto;proto";
+
+message HealthCheckRequest {}
+
+message HealthCheckResponse {
+  bool success = 1 [json_name = "success"];
+  string message = 2 [json_name = "message"];
+}
+
+message CreateKonsumenRequest {
+  string Nik = 2 [json_name = "nik"];
+  string FullName = 3 [json_name = "full_name"];
+  string LegalName = 4 [json_name = "legal_name"];
+  uint64 Gaji = 5 [json_name = "gaji"];
+  string TempatLahir = 6 [json_name = "tempat_lahir"];
+  google.protobuf.Timestamp TanggalLahir = 7 [json_name = "tanggal_lahir"];
+  string FotoKtp = 8 [json_name = "foto_ktp"];
+  string FotoSelfie = 9 [json_name = "foto_selfie"];
+  string Role = 10 [json_name = "role"];
+  string Email = 11 [json_name = "email"];
+  string Password = 12 [json_name = "password"];
+}
+
+message CreateKonsumenResponse {
+  string IdKonsumen = 1 [json_name = "id_konsumen"];
+}
+
+message CreateLimitRequest {
+  string IdKonsumen = 1 [json_name = "id_konsumen"];
+  uint32 Tenor = 2 [json_name = "tenor"];
+  uint64 BatasKredit = 3 [json_name = "batas_kredit"];
+}
+
+message CreateLimitResponse {
+  string IdLimit = 1 [json_name = "id_limit"];
+}
+
+message GetLimitRequest {
+  string IdLimit = 1 [json_name = "id_limit"];
+  string IdKonsumen = 2 [json_name = "id_konsumen"];
+}
+
+message GetLimitResponse {
+  string IdLimit = 1 [json_name = "id_limit"];
+  string IdKonsumen = 2 [json_name = "id_konsumen"];
+  uint32 Tenor = 3 [json_name = "tenor"];
+  uint64 BatasKredit = 4 [json_name = "batas_kredit"];
+}
+
+message CreateTransaksiRequest {
+  string IdKonsumen = 2 [json_name = "id_konsumen"];
+  string NomorKontrak = 3 [json_name = "nomor_kontrak"];
+  google.protobuf.Timestamp  TanggalTransaksi = 4 [json_name = "tanggal_transaksi"];
+  uint64 Otr = 5 [json_name = "otr"];
+  uint64 AdminFee = 6 [json_name = "admin_fee"];
+  uint64 JumlahCicilan = 7 [json_name = "jumlah_cicilan"];
+  uint64 JumlahBunga = 8 [json_name = "jumlah_bunga"];
+  string NamaAsset = 9 [json_name = "nama_asset"];
+  string JenisTransaksi = 10 [json_name = "jenis_transaksi"];
+}
+
+message CreateTransaksiResponse {
+  string IdTransaksi = 1 [json_name = "id_transaksi"];
+}
+
+message GetTransaksiRequest {
+  string IdTransaksi = 1 [json_name = "id_transaksi"];
+}
+
+message GetTransaksiResponse {
+  string IdTransaksi = 1 [json_name = "id_transaksi"];
+  string IdKonsumen = 2 [json_name = "id_konsumen"];
+  string NomorKontrak = 3 [json_name = "nomor_kontrak"];
+  google.protobuf.Timestamp  TanggalTransaksi = 4 [json_name = "tanggal_transaksi"];
+  uint64 Otr = 5 [json_name = "otr"];
+  uint64 AdminFee = 6 [json_name = "admin_fee"];
+  uint64 JumlahCicilan = 7 [json_name = "jumlah_cicilan"];
+  uint64 JumlahBunga = 8 [json_name = "jumlah_bunga"];
+  string NamaAsset = 9 [json_name = "nama_asset"];
+  string JenisTransaksi = 10 [json_name = "jenis_transaksi"];
+}

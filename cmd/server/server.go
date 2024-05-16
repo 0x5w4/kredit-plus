@@ -1,9 +1,24 @@
 package server
 
-import "github.com/0x5w4/kredit-plus/config"
+import (
+	"context"
+	"os"
+	"os/signal"
+	"syscall"
+
+	"github.com/0x5w4/kredit-plus/config"
+	grpcClient "github.com/0x5w4/kredit-plus/pkg/grpc-client"
+	grpcServer "github.com/0x5w4/kredit-plus/pkg/grpc-server"
+	loggerClient "github.com/0x5w4/kredit-plus/pkg/logger"
+	loggerInterceptor "github.com/0x5w4/kredit-plus/pkg/logger-interceptor"
+)
 
 type Server struct {
-	cfg *config.Config
+	cfg               *config.Config
+	appLogger         *loggerClient.AppLogger
+	grpcServer        *grpcServer.GrpcServer
+	grpcClient        *grpcClient.GrpcClient
+	loggerInterceptor loggerInterceptor.LoggerInterceptor
 }
 
 func NewServer(cfg *config.Config) *Server {
@@ -13,13 +28,12 @@ func NewServer(cfg *config.Config) *Server {
 }
 
 func (s Server) Run() error {
-	return nil
-}
+	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM, syscall.SIGINT)
+	defer cancel()
 
-func (s Server) RunSwagDoc() error {
-	return nil
-}
-
-func (s Server) RunRpc() error {
+	s.setupLogger()
+	s.setupLoggerInterceptor()
+	s.setupGrpcServer()
+	s.setupGrpcClient(ctx)
 	return nil
 }

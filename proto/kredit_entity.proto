@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package proto;
+
+import "protoc-gen-gorm/options/gorm.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/0x5w4/kredit-plus/proto;proto";
+
+message Konsumen {
+  option (gorm.opts) = {
+    ormable: true,
+    table: 'konsumen',
+  };
+
+  string IdKonsumen =  1 [
+    (google.api.field_behavior) = OUTPUT_ONLY,
+    (gorm.field).tag = {type: "uuid" primary_key: true not_null: true default: "uuid_generate_v4()"}
+  ];
+  string Nik = 2 [(gorm.field).tag = {not_null: true}];
+  string FullName = 3 [(gorm.field).tag = {not_null: true}];
+  string LegalName = 4 [(gorm.field).tag = {not_null: true}];
+  uint64 Gaji = 5 [(gorm.field).tag = {not_null: true}];
+  string TempatLahir = 6 [(gorm.field).tag = {not_null: true}];
+  google.protobuf.Timestamp TanggalLahir = 7 [(gorm.field).tag = {not_null: true}];
+  string FotoKtp = 8 [(gorm.field).tag = {not_null: true}];
+  string FotoSelfie = 9 [(gorm.field).tag = {not_null: true}];
+  string Email = 11 [(gorm.field).tag = {unique: true not_null: true}];
+  string Password = 12 [(gorm.field).tag = {not_null: true}];
+  google.protobuf.Timestamp created_at = 13 [(google.api.field_behavior) = OUTPUT_ONLY];
+  google.protobuf.Timestamp updated_at = 14 [(google.api.field_behavior) = OUTPUT_ONLY];
+}
+
+message Transaksi {
+  string IdTransaksi = 1 [
+    (google.api.field_behavior) = OUTPUT_ONLY,
+    (gorm.field).tag = {type: "uuid" primary_key: true not_null: true default: "uuid_generate_v4()"}
+  ];
+  string IdKonsumen = 2 [(gorm.field).tag = {not_null: true}];
+  string NomorKontrak = 3 [(gorm.field).tag = {not_null: true}];
+  google.protobuf.Timestamp  TanggalTransaksi = 4 [(gorm.field).tag = {not_null: true}];
+  uint64 Otr = 5 [(gorm.field).tag = {not_null: true}];
+  uint64 AdminFee = 6 [(gorm.field).tag = {not_null: true}];
+  uint64 JumlahCicilan = 7 [(gorm.field).tag = {not_null: true}];
+  uint64 JumlahBunga = 8 [(gorm.field).tag = {not_null: true}];
+  string NamaAsset = 9 [(gorm.field).tag = {not_null: true}];
+  string JenisTransaksi = 10 [(gorm.field).tag = {not_null: true}];
+  google.protobuf.Timestamp created_at = 11 [(google.api.field_behavior) = OUTPUT_ONLY];
+  google.protobuf.Timestamp updated_at = 12 [(google.api.field_behavior) = OUTPUT_ONLY];
+}
+
+message Limit {
+  string IdLimit = 1 [
+    (google.api.field_behavior) = OUTPUT_ONLY,
+    (gorm.field).tag = {type: "uuid" primary_key: true not_null: true default: "uuid_generate_v4()"}
+  ];
+  string IdKonsumen = 2 [(gorm.field).tag = {not_null: true}];
+  uint32 Tenor = 3 [(gorm.field).tag = {not_null: true}];
+  uint64 BatasKredit = 4 [(gorm.field).tag = {not_null: true}];
+  google.protobuf.Timestamp created_at = 5 [(google.api.field_behavior) = OUTPUT_ONLY];
+  google.protobuf.Timestamp updated_at = 6 [(google.api.field_behavior) = OUTPUT_ONLY];
+}

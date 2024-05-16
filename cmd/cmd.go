@@ -20,6 +20,7 @@ var runCmd = &cobra.Command{
 	Short: "Run the kredit service.",
 	Run: func(cmd *cobra.Command, args []string) {
 		s := server.NewServer(config.LoadConfig())
+
 		if err := s.Run(); err != nil {
 			log.Fatalf("Failed to run server: %v", err)
 		}
