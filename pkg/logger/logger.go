@@ -16,14 +16,6 @@ const (
 	LogLevelError string = "error"
 )
 
-// LoggerConfig holds the configuration for creating a new logger.
-type Config struct {
-	Encoding   string
-	Level      string
-	OutputPath string
-	ErrorPath  string
-}
-
 // AppLogger provides structured logging functionality.
 type AppLogger struct {
 	Logger  *zap.Logger
@@ -159,17 +151,17 @@ func (al *AppLogger) StructuredPrint(lf *LogFields) {
 		zap.String("execution_type", lf.ExecutionType),
 		zap.String("content_type", lf.ContentType),
 		zap.String("function_name", lf.FunctionName),
-		zap.Any("user_info", lf.UserInfo),
+		// zap.Any("user_info", lf.UserInfo),
 		zap.String("execution_time", lf.ExecutionTime),
-		zap.String("server_ip", lf.ServerIP),
-		zap.String("client_ip", lf.ClientIP),
+		// zap.String("server_ip", lf.ServerIP),
+		// zap.String("client_ip", lf.ClientIP),
 		zap.String("event_name", lf.EventName),
-		zap.String("trace_id", lf.TraceID),
-		zap.String("prev_transaction_id", lf.PrevTransactionID),
+		// zap.String("trace_id", lf.TraceID),
+		// zap.String("prev_transaction_id", lf.PrevTransactionID),
 		zap.String("body", lf.Body),
 		zap.String("result", lf.Result),
 		zap.String("error", lf.Error),
-		zap.String("flag_start_or_stop", lf.FlagStartOrStop),
+		// zap.String("flag_start_or_stop", lf.FlagStartOrStop),
 		zap.Any("message", lf.Message),
 	)
 }

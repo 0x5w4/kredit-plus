@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package kafkaMessages;
+
+option go_package = "./;kafkaMessages";
+
+message Konsumen {
+  string IdKonsumen =  1;
+  string Nik = 2;
+  string FullName = 3;
+  string LegalName = 4;
+  double Gaji = 5;
+  string TempatLahir = 6;
+  google.protobuf.Timestamp TanggalLahir = 7;
+  string FotoKtp = 8;
+  string FotoSelfie = 9;
+  string Email = 11;
+  string Password = 12;
+  google.protobuf.Timestamp CreatedAt = 13;
+  google.protobuf.Timestamp UpdatedAt = 14;
+}
+
+message Limit {
+  string IdLimit = 1;
+  string IdKonsumen = 2;
+  uint32 Tenor = 3;
+  double BatasKredit = 4;
+  google.protobuf.Timestamp CreatedAt = 5;
+  google.protobuf.Timestamp UpdatedAt = 6;
+}
+
+message Transaksi {
+  string IdTransaksi = 1;
+  string IdKonsumen = 2;
+  string NomorKontrak = 3;
+  google.protobuf.Timestamp  TanggalTransaksi = 4;
+  uint64 Otr = 5;
+  double AdminFee = 6;
+  double JumlahCicilan = 7;
+  double JumlahBunga = 8;
+  string NamaAsset = 9;
+  string JenisTransaksi = 10;
+  google.protobuf.Timestamp CreatedAt = 11;
+  google.protobuf.Timestamp UpdatedAt = 12;
+}
+
+message KonsumenCreate {
+  string IdKonsumen =  1;
+  string Nik = 2;
+  string FullName = 3;
+  string LegalName = 4;
+  double Gaji = 5;
+  string TempatLahir = 6;
+  google.protobuf.Timestamp TanggalLahir = 7;
+  string FotoKtp = 8;
+  string FotoSelfie = 9;
+  string Email = 11;
+  string Password = 12;
+}
+
+message LimitCreate {
+  string IdLimit = 1;
+  string IdKonsumen = 2;
+  uint32 Tenor = 3;
+  double BatasKredit = 4;
+}
+
+message TransaksiCreate {
+  string IdTransaksi = 1;
+  string IdKonsumen = 2;
+  string NomorKontrak = 3;
+  google.protobuf.Timestamp  TanggalTransaksi = 4;
+  uint64 Otr = 5;
+  double AdminFee = 6;
+  double JumlahCicilan = 7;
+  double JumlahBunga = 8;
+  string NamaAsset = 9;
+  string JenisTransaksi = 10;
+}
+
+message KonsumenCreated {
+  Konsumen Konsumen = 1;
+}
+
+message LimitCreated {
+  Limit Limit = 1;
+}
+
+message TransaksiCreated {
+  Transaksi Transaksi = 1;
+}

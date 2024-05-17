@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package writerService;
+
+option go_package = "./;writerService";
+
+import "writer_messages.proto";
+
+
+service writerService {
+  rpc CreateKonsumen (CreateKonsumenRequest) returns (CreateKonsumenResponse);
+  rpc CreateLimit (CreateLimitRequest) returns (CreateLimitResponse);
+  rpc GetLimit (GetLimitRequest) returns (GetLimitResponse);
+  rpc CreateTransaksi (CreateLimitRequest) returns (CreateLimitResponse);
+  rpc GetTransaksi (CreateKonsumenRequest) returns (CreateKonsumenResponse);
+}

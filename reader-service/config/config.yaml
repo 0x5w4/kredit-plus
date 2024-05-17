@@ -1,0 +1,49 @@
+serviceName: reader_service
+grpc:
+  port: :5003
+logger:
+  encoding: json
+  level: debug
+  ouputPath: logs
+  errorPath: logs
+postgres:
+  username: postgres
+  password: postgres
+  host: localhost
+  port: 5432
+  dbName: kredit
+  sslMode: false
+kafka:
+  brokers: ["localhost:9092"]
+  groupID: writer_microservice_consumer
+  initTopics: true
+kafkaTopics:
+  konsumenCreated:
+    topicName: konsumen_created
+    partitions: 10
+    poolSize: 10
+    replicationFactor: 1
+  limitCreated:
+    topicName: limit_created
+    partitions: 10
+    poolSize: 10
+    replicationFactor: 1
+  transaksiCreated:
+    topicName: transaksi_created
+    partitions: 10
+    poolSize: 10
+    replicationFactor: 1
+redis:
+  addr: "localhost:6379"
+  password: ""
+  db: 0
+  poolSize: 300
+mongo:
+  uri: "mongodb://localhost:27017"
+  user: admin
+  password: admin
+  db: kredit
+mongoCollections:
+  products: kredit
+serviceSettings:
+  redisKreditPrefixKey: "reader:kredit"

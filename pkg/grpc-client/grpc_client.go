@@ -1,18 +1,15 @@
 package grpc_client
 
 import (
-	"context"
 	"fmt"
 	"time"
 
-	grpcServer "github.com/0x5w4/kredit-plus/pkg/grpc-server"
 	"github.com/0x5w4/kredit-plus/pkg/logger"
 	interceptor "github.com/0x5w4/kredit-plus/pkg/logger-interceptor"
 	grpcRetry "github.com/grpc-ecosystem/go-grpc-middleware/retry"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/credentials/insecure"
 )
 
@@ -21,26 +18,8 @@ const (
 	backoffRetries = 3
 )
 
-type GrpcClient struct {
-	Connection *grpc.ClientConn
-	Config     grpcServer.Config
-	Logger     *logger.AppLogger
-}
-
-func NewGrpcClient(ctx context.Context, cfg grpcServer.Config, li interceptor.LoggerInterceptor, logger *logger.AppLogger, opts ...grpc.DialOption) (*GrpcClient, error) {
-	if cfg.Tls {
-		certFile := "ssl/certificates/ca.crt" // => file path location your certFile
-		creds, err := credentials.NewClientTLSFromFile(certFile, "")
-		if err != nil {
-			logger.SLogger.Fatalf("credentials.NewClientTLSFromFile: %v", err)
-		}
-
-		opts = append(opts, grpc.WithTransportCredentials(creds))
-	} else {
-		creds := grpc.WithTransportCredentials(insecure.NewCredentials())
-		opts = append(opts, creds)
-	}
-
+func NewGrpcClient(port string, li interceptor.LoggerInterceptor, logger *logger.AppLogger, opts ...grpc.DialOption) (*grpc.ClientConn, error) {
+	opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	opts = append(
 		opts,
 		grpc.WithUnaryInterceptor(li.ClientLoggerInterceptor()),
@@ -51,23 +30,10 @@ func NewGrpcClient(ctx context.Context, cfg grpcServer.Config, li interceptor.Lo
 		}...)),
 	)
 
-	conn, err := grpc.DialContext(ctx, fmt.Sprintf(":%v", cfg.Port), opts...)
+	conn, err := grpc.NewClient(fmt.Sprintf(":%v", port), opts...)
 	if err != nil {
-		return nil, errors.Wrap(err, "grpc.DialContext")
-	}
-	return &GrpcClient{
-		Connection: conn,
-		Config:     cfg,
-		Logger:     logger,
-	}, nil
-}
-
-func (c *GrpcClient) Close(ctx context.Context) {
-	if err := c.Connection.Close(); err != nil {
-		c.Logger.SLogger.Fatalf("grpcClient.Connection.Close: %v", err)
+		return nil, errors.Wrap(err, "grpc.NewClient")
 	}
 
-	go func() {
-		<-ctx.Done()
-	}()
+	return conn, nil
 }
