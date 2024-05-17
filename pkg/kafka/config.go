@@ -10,5 +10,4 @@ type TopicConfig struct {
 	TopicName         string `mapstructure:"topicName"`
 	Partitions        int    `mapstructure:"partitions"`
 	ReplicationFactor int    `mapstructure:"replicationFactor"`
-	PoolSize          int    `mapstructure:"poolSize"`
 }

@@ -14,7 +14,7 @@ type KreditService struct {
 	Queries  *queries.KreditQueries
 }
 
-func NewKreditService(logger *logger.AppLogger, cfg *config.Config, pgRepo repository.Repository, kafkaProducer kafkaClient.Producer) *KreditService {
+func NewKreditService(logger *logger.AppLogger, cfg *config.Config, pgRepo repository.Repository, kafkaProducer *kafkaClient.Producer) *KreditService {
 
 	createKonsumenHandler := commands.NewCreateKonsumenHandler(logger, cfg, pgRepo, kafkaProducer)
 	createLimitHandler := commands.NewCreateLimitHandler(logger, cfg, pgRepo, kafkaProducer)

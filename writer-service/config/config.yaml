@@ -1,5 +1,5 @@
 serviceName: writer_service
-grpc:
+grpcServer:
   port: :5002
 logger:
   encoding: json
@@ -21,30 +21,24 @@ kafkaTopics:
   konsumenCreate:
     topicName: konsumen_create
     partitions: 10
-    poolSize: 10
     replicationFactor: 1
   konsumenCreated:
     topicName: konsumen_created
     partitions: 10
-    poolSize: 10
     replicationFactor: 1
   limitCreate:
     topicName: limit_create
     partitions: 10
-    poolSize: 10
     replicationFactor: 1
   limitCreated:
     topicName: limit_created
     partitions: 10
-    poolSize: 10
     replicationFactor: 1
   transaksiCreate:
     topicName: transaksi_create
     partitions: 10
-    poolSize: 10
     replicationFactor: 1
   transaksiCreated:
     topicName: transaksi_created
     partitions: 10
-    poolSize: 10
     replicationFactor: 1

@@ -2,7 +2,6 @@ package kafka
 
 import (
 	"context"
-	"sync"
 
 	"github.com/0x5w4/kredit-plus/pkg/logger"
 	"github.com/0x5w4/kredit-plus/writer-service/config"
@@ -22,13 +21,11 @@ type MessageProcessor struct {
 	ps     *service.KreditService
 }
 
-func NewProductMessageProcessor(logger *logger.AppLogger, cfg *config.Config, v *validator.Validate, ps *service.KreditService) *MessageProcessor {
+func NewMessageProcessor(logger *logger.AppLogger, cfg *config.Config, v *validator.Validate, ps *service.KreditService) *MessageProcessor {
 	return &MessageProcessor{logger: logger, cfg: cfg, v: v, ps: ps}
 }
 
-func (mp *MessageProcessor) ProcessMessages(ctx context.Context, r *kafka.Reader, wg *sync.WaitGroup, workerID int) {
-	defer wg.Done()
-
+func (mp *MessageProcessor) ProcessMessages(ctx context.Context, r *kafka.Reader, workerID int) {
 	for {
 		select {
 		case <-ctx.Done():

@@ -18,7 +18,7 @@ const (
 	lazyConnect       = false
 )
 
-func NewPgxConn(cfg Config, logger logger.AppLogger) (*pgxpool.Pool, error) {
+func NewPgxConn(cfg Config, logger *logger.AppLogger) (*pgxpool.Pool, error) {
 	dataSourceName := fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s sslmode=%v",
 		cfg.Username,
 		cfg.Password,

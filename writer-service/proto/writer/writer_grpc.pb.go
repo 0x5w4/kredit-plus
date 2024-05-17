@@ -21,8 +21,8 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	WriterService_CreateKonsumen_FullMethodName  = "/writerService.writerService/CreateKonsumen"
 	WriterService_CreateLimit_FullMethodName     = "/writerService.writerService/CreateLimit"
-	WriterService_GetLimit_FullMethodName        = "/writerService.writerService/GetLimit"
 	WriterService_CreateTransaksi_FullMethodName = "/writerService.writerService/CreateTransaksi"
+	WriterService_GetLimit_FullMethodName        = "/writerService.writerService/GetLimit"
 	WriterService_GetTransaksi_FullMethodName    = "/writerService.writerService/GetTransaksi"
 )
 
@@ -32,9 +32,9 @@ const (
 type WriterServiceClient interface {
 	CreateKonsumen(ctx context.Context, in *CreateKonsumenRequest, opts ...grpc.CallOption) (*CreateKonsumenResponse, error)
 	CreateLimit(ctx context.Context, in *CreateLimitRequest, opts ...grpc.CallOption) (*CreateLimitResponse, error)
+	CreateTransaksi(ctx context.Context, in *CreateTransaksiRequest, opts ...grpc.CallOption) (*CreateTransaksiResponse, error)
 	GetLimit(ctx context.Context, in *GetLimitRequest, opts ...grpc.CallOption) (*GetLimitResponse, error)
-	CreateTransaksi(ctx context.Context, in *CreateLimitRequest, opts ...grpc.CallOption) (*CreateLimitResponse, error)
-	GetTransaksi(ctx context.Context, in *CreateKonsumenRequest, opts ...grpc.CallOption) (*CreateKonsumenResponse, error)
+	GetTransaksi(ctx context.Context, in *GetTransaksiRequest, opts ...grpc.CallOption) (*GetTransaksiResponse, error)
 }
 
 type writerServiceClient struct {
@@ -63,6 +63,15 @@ func (c *writerServiceClient) CreateLimit(ctx context.Context, in *CreateLimitRe
 	return out, nil
 }
 
+func (c *writerServiceClient) CreateTransaksi(ctx context.Context, in *CreateTransaksiRequest, opts ...grpc.CallOption) (*CreateTransaksiResponse, error) {
+	out := new(CreateTransaksiResponse)
+	err := c.cc.Invoke(ctx, WriterService_CreateTransaksi_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *writerServiceClient) GetLimit(ctx context.Context, in *GetLimitRequest, opts ...grpc.CallOption) (*GetLimitResponse, error) {
 	out := new(GetLimitResponse)
 	err := c.cc.Invoke(ctx, WriterService_GetLimit_FullMethodName, in, out, opts...)
@@ -72,17 +81,8 @@ func (c *writerServiceClient) GetLimit(ctx context.Context, in *GetLimitRequest,
 	return out, nil
 }
 
-func (c *writerServiceClient) CreateTransaksi(ctx context.Context, in *CreateLimitRequest, opts ...grpc.CallOption) (*CreateLimitResponse, error) {
-	out := new(CreateLimitResponse)
-	err := c.cc.Invoke(ctx, WriterService_CreateTransaksi_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *writerServiceClient) GetTransaksi(ctx context.Context, in *CreateKonsumenRequest, opts ...grpc.CallOption) (*CreateKonsumenResponse, error) {
-	out := new(CreateKonsumenResponse)
+func (c *writerServiceClient) GetTransaksi(ctx context.Context, in *GetTransaksiRequest, opts ...grpc.CallOption) (*GetTransaksiResponse, error) {
+	out := new(GetTransaksiResponse)
 	err := c.cc.Invoke(ctx, WriterService_GetTransaksi_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -96,9 +96,9 @@ func (c *writerServiceClient) GetTransaksi(ctx context.Context, in *CreateKonsum
 type WriterServiceServer interface {
 	CreateKonsumen(context.Context, *CreateKonsumenRequest) (*CreateKonsumenResponse, error)
 	CreateLimit(context.Context, *CreateLimitRequest) (*CreateLimitResponse, error)
+	CreateTransaksi(context.Context, *CreateTransaksiRequest) (*CreateTransaksiResponse, error)
 	GetLimit(context.Context, *GetLimitRequest) (*GetLimitResponse, error)
-	CreateTransaksi(context.Context, *CreateLimitRequest) (*CreateLimitResponse, error)
-	GetTransaksi(context.Context, *CreateKonsumenRequest) (*CreateKonsumenResponse, error)
+	GetTransaksi(context.Context, *GetTransaksiRequest) (*GetTransaksiResponse, error)
 }
 
 // UnimplementedWriterServiceServer should be embedded to have forward compatible implementations.
@@ -111,13 +111,13 @@ func (UnimplementedWriterServiceServer) CreateKonsumen(context.Context, *CreateK
 func (UnimplementedWriterServiceServer) CreateLimit(context.Context, *CreateLimitRequest) (*CreateLimitResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateLimit not implemented")
 }
+func (UnimplementedWriterServiceServer) CreateTransaksi(context.Context, *CreateTransaksiRequest) (*CreateTransaksiResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTransaksi not implemented")
+}
 func (UnimplementedWriterServiceServer) GetLimit(context.Context, *GetLimitRequest) (*GetLimitResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetLimit not implemented")
 }
-func (UnimplementedWriterServiceServer) CreateTransaksi(context.Context, *CreateLimitRequest) (*CreateLimitResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateTransaksi not implemented")
-}
-func (UnimplementedWriterServiceServer) GetTransaksi(context.Context, *CreateKonsumenRequest) (*CreateKonsumenResponse, error) {
+func (UnimplementedWriterServiceServer) GetTransaksi(context.Context, *GetTransaksiRequest) (*GetTransaksiResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTransaksi not implemented")
 }
 
@@ -168,6 +168,24 @@ func _WriterService_CreateLimit_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WriterService_CreateTransaksi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateTransaksiRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WriterServiceServer).CreateTransaksi(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WriterService_CreateTransaksi_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WriterServiceServer).CreateTransaksi(ctx, req.(*CreateTransaksiRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _WriterService_GetLimit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetLimitRequest)
 	if err := dec(in); err != nil {
@@ -186,26 +204,8 @@ func _WriterService_GetLimit_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WriterService_CreateTransaksi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateLimitRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WriterServiceServer).CreateTransaksi(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: WriterService_CreateTransaksi_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WriterServiceServer).CreateTransaksi(ctx, req.(*CreateLimitRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _WriterService_GetTransaksi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateKonsumenRequest)
+	in := new(GetTransaksiRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -217,7 +217,7 @@ func _WriterService_GetTransaksi_Handler(srv interface{}, ctx context.Context, d
 		FullMethod: WriterService_GetTransaksi_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WriterServiceServer).GetTransaksi(ctx, req.(*CreateKonsumenRequest))
+		return srv.(WriterServiceServer).GetTransaksi(ctx, req.(*GetTransaksiRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -238,12 +238,12 @@ var WriterService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _WriterService_CreateLimit_Handler,
 		},
 		{
-			MethodName: "GetLimit",
-			Handler:    _WriterService_GetLimit_Handler,
-		},
-		{
 			MethodName: "CreateTransaksi",
 			Handler:    _WriterService_CreateTransaksi_Handler,
+		},
+		{
+			MethodName: "GetLimit",
+			Handler:    _WriterService_GetLimit_Handler,
 		},
 		{
 			MethodName: "GetTransaksi",

@@ -133,7 +133,7 @@ func (s *grpcService) CreateTransaksi(ctx context.Context, req *writerService.Cr
 	return &writerService.CreateTransaksiResponse{IdTransaksi: idTransaksi.String()}, nil
 }
 
-func (s *grpcService) Getlimit(ctx context.Context, req *writerService.GetLimitRequest) (*writerService.GetLimitResponse, error) {
+func (s *grpcService) GetLimit(ctx context.Context, req *writerService.GetLimitRequest) (*writerService.GetLimitResponse, error) {
 	idLimit, err := uuid.Parse(req.GetIdLimit())
 	if err != nil {
 		s.logger.SLogger.Warn("uuid.FromString", err)

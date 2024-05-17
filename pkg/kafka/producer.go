@@ -13,10 +13,10 @@ type Producer struct {
 	writer  *kafka.Writer
 }
 
-func NewProducer(brokers []string, topic string) *Producer {
+func NewProducer(brokers []string) *Producer {
 	return &Producer{
 		brokers: brokers,
-		writer:  NewWriter(brokers, topic),
+		writer:  NewWriter(brokers),
 	}
 }
 

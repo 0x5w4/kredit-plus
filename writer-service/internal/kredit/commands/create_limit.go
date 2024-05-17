@@ -23,14 +23,14 @@ type createLimitHandler struct {
 	logger        *logger.AppLogger
 	cfg           *config.Config
 	pgRepo        repository.Repository
-	kafkaProducer kafkaClient.Producer
+	kafkaProducer *kafkaClient.Producer
 }
 
 func NewCreateLimitHandler(
 	logger *logger.AppLogger,
 	cfg *config.Config,
 	pgRepo repository.Repository,
-	kafkaProducer kafkaClient.Producer,
+	kafkaProducer *kafkaClient.Producer,
 ) *createLimitHandler {
 	return &createLimitHandler{
 		logger:        logger,

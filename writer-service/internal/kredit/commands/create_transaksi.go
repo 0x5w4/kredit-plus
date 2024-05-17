@@ -23,14 +23,14 @@ type createTransaksiHandler struct {
 	logger        *logger.AppLogger
 	cfg           *config.Config
 	pgRepo        repository.Repository
-	kafkaProducer kafkaClient.Producer
+	kafkaProducer *kafkaClient.Producer
 }
 
 func NewCreateTransaksiHandler(
 	logger *logger.AppLogger,
 	cfg *config.Config,
 	pgRepo repository.Repository,
-	kafkaProducer kafkaClient.Producer,
+	kafkaProducer *kafkaClient.Producer,
 ) *createTransaksiHandler {
 	return &createTransaksiHandler{
 		logger:        logger,

@@ -18,10 +18,9 @@ const (
 	writerAsync        = false
 )
 
-func NewWriter(brokers []string, topic string) *kafka.Writer {
+func NewWriter(brokers []string) *kafka.Writer {
 	return kafka.NewWriter(kafka.WriterConfig{
 		Brokers: brokers,
-		Topic:   topic,
 		Dialer: &kafka.Dialer{
 			Timeout: dialTimeout,
 		},

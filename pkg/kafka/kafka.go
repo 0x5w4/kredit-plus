@@ -10,6 +10,6 @@ const (
 	ReplicationFactor = 1
 )
 
-func NewKafkaConn(ctx context.Context, cfg *Config) (*kafka.Conn, error) {
+func NewKafkaConn(ctx context.Context, cfg Config) (*kafka.Conn, error) {
 	return kafka.DialContext(ctx, "tcp", cfg.Brokers[0])
 }

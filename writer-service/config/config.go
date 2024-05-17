@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	grpcServer "github.com/0x5w4/kredit-plus/pkg/grpc-server"
 	kafkaClient "github.com/0x5w4/kredit-plus/pkg/kafka"
 	loggerClient "github.com/0x5w4/kredit-plus/pkg/logger"
 	postgresClient "github.com/0x5w4/kredit-plus/pkg/postgres"
@@ -23,13 +24,9 @@ type Config struct {
 	ServiceName string                `mapstructure:"serviceName"`
 	Logger      loggerClient.Config   `mapstructure:"logger"`
 	KafkaTopics KafkaTopics           `mapstructure:"kafkaTopics"`
-	Grpc        Grpc                  `mapstructure:"grpc"`
+	GrpcServer  grpcServer.Config     `mapstructure:"grpcServer"`
 	Kafka       kafkaClient.Config    `mapstructure:"kafka"`
 	Postgresql  postgresClient.Config `mapstructure:"postgres"`
-}
-
-type Grpc struct {
-	Port string `mapstructure:"port"`
 }
 
 type KafkaTopics struct {
@@ -68,9 +65,9 @@ func InitConfig() (*Config, error) {
 		return nil, errors.Wrap(err, "viper.Unmarshal")
 	}
 
-	grpcPort := os.Getenv("GRPC_PORT")
+	grpcPort := os.Getenv("GRPC_SERVER_PORT")
 	if grpcPort != "" {
-		cfg.Grpc.Port = grpcPort
+		cfg.GrpcServer.Port = grpcPort
 	}
 	postgresHost := os.Getenv("POSTGRES_HOST")
 	if postgresHost != "" {

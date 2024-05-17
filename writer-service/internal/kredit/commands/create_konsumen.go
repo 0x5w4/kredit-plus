@@ -23,14 +23,14 @@ type createKonsumenHandler struct {
 	logger        *logger.AppLogger
 	cfg           *config.Config
 	pgRepo        repository.Repository
-	kafkaProducer kafkaClient.Producer
+	kafkaProducer *kafkaClient.Producer
 }
 
 func NewCreateKonsumenHandler(
 	logger *logger.AppLogger,
 	cfg *config.Config,
 	pgRepo repository.Repository,
-	kafkaProducer kafkaClient.Producer,
+	kafkaProducer *kafkaClient.Producer,
 ) *createKonsumenHandler {
 	return &createKonsumenHandler{
 		logger:        logger,
