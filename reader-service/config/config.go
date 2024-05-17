@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"os"
 
+	grpcServer "github.com/0x5w4/kredit-plus/pkg/grpc-server"
 	kafkaClient "github.com/0x5w4/kredit-plus/pkg/kafka"
 	loggerClient "github.com/0x5w4/kredit-plus/pkg/logger"
 	mongoClient "github.com/0x5w4/kredit-plus/pkg/mongo"
-	postgresClient "github.com/0x5w4/kredit-plus/pkg/postgres"
 	redisClient "github.com/0x5w4/kredit-plus/pkg/redis"
 	"github.com/pkg/errors"
 
@@ -22,33 +22,28 @@ func init() {
 }
 
 type Config struct {
-	ServiceName      string                `mapstructure:"serviceName"`
-	Logger           loggerClient.Config   `mapstructure:"logger"`
-	KafkaTopics      KafkaTopics           `mapstructure:"kafkaTopics"`
-	Grpc             Grpc                  `mapstructure:"grpc"`
-	Kafka            kafkaClient.Config    `mapstructure:"kafka"`
-	Postgresql       postgresClient.Config `mapstructure:"postgres"`
-	Mongo            mongoClient.Config    `mapstructure:"mongo"`
-	Redis            redisClient.Config    `mapstructure:"redis"`
-	MongoCollections MongoCollections      `mapstructure:"mongoCollections"`
-	ServiceSettings  ServiceSettings       `mapstructure:"serviceSettings"`
-}
-
-type Grpc struct {
-	Port string `mapstructure:"port"`
+	ServiceName      string              `mapstructure:"serviceName"`
+	Logger           loggerClient.Config `mapstructure:"logger"`
+	KafkaTopics      KafkaTopics         `mapstructure:"kafkaTopics"`
+	GrpcServer       grpcServer.Config   `mapstructure:"grpcServer"`
+	Kafka            kafkaClient.Config  `mapstructure:"kafka"`
+	Mongo            mongoClient.Config  `mapstructure:"mongo"`
+	Redis            redisClient.Config  `mapstructure:"redis"`
+	MongoCollections MongoCollections    `mapstructure:"mongoCollections"`
+	ServiceSettings  ServiceSettings     `mapstructure:"serviceSettings"`
 }
 
 type MongoCollections struct {
 	Kredit string `mapstructure:"kredit"`
 }
 type ServiceSettings struct {
-	RedisProductPrefixKey string `mapstructure:"redisKreditPrefixKey"`
+	RedisKreditPrefixKey string `mapstructure:"redisKreditPrefixKey"`
 }
 
 type KafkaTopics struct {
-	ProductCreated kafkaClient.TopicConfig `mapstructure:"productCreated"`
-	ProductUpdated kafkaClient.TopicConfig `mapstructure:"productUpdated"`
-	ProductDeleted kafkaClient.TopicConfig `mapstructure:"productDeleted"`
+	KonsumenCreated  kafkaClient.TopicConfig `mapstructure:"konsumenCreated"`
+	LimitCreated     kafkaClient.TopicConfig `mapstructure:"limitCreated"`
+	TransaksiCreated kafkaClient.TopicConfig `mapstructure:"transaksiCreated"`
 }
 
 func InitConfig() (*Config, error) {
@@ -80,15 +75,7 @@ func InitConfig() (*Config, error) {
 
 	grpcPort := os.Getenv("GRPC_PORT")
 	if grpcPort != "" {
-		cfg.Grpc.Port = grpcPort
-	}
-	postgresHost := os.Getenv("POSTGRES_HOST")
-	if postgresHost != "" {
-		cfg.Postgresql.Host = postgresHost
-	}
-	postgresPort := os.Getenv("POSTGRES_PORT")
-	if postgresPort != "" {
-		cfg.Postgresql.Port = postgresPort
+		cfg.GrpcServer.Port = grpcPort
 	}
 	mongoURI := os.Getenv("MONGO_URI")
 	if mongoURI != "" {

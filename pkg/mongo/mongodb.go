@@ -16,7 +16,7 @@ const (
 	maxPoolSize     = 300
 )
 
-func NewMongoDBConn(cfg Config, logger logger.AppLogger) (*mongo.Client, error) {
+func NewMongoDBConn(cfg Config, logger *logger.AppLogger) (*mongo.Client, error) {
 	client, err := mongo.Connect(context.Background(), options.Client().ApplyURI(cfg.URI).
 		SetAuth(options.Credential{Username: cfg.User, Password: cfg.Password}).
 		SetConnectTimeout(connectTimeout).

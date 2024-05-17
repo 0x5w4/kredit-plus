@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package readerService;
+
+option go_package = "./;readerService";
+
+import "reader_messages.proto";
+
+service readerService {
+  rpc CreateKonsumen (CreateKonsumenRequest) returns (CreateKonsumenResponse);
+  rpc CreateLimit (CreateLimitRequest) returns (CreateLimitResponse);
+  rpc CreateTransaksi (CreateTransaksiRequest) returns (CreateTransaksiResponse);
+  rpc GetLimit (GetLimitRequest) returns (GetLimitResponse);
+  rpc GetTransaksi (GetTransaksiRequest) returns (GetTransaksiResponse);
+}
