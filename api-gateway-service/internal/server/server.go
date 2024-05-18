@@ -7,21 +7,34 @@ import (
 	"syscall"
 
 	"github.com/0x5w4/kredit-plus/api-gateway-service/config"
+	"github.com/0x5w4/kredit-plus/api-gateway-service/internal/kredit/service"
+	"github.com/0x5w4/kredit-plus/api-gateway-service/internal/middlewares"
+	kafkaClient "github.com/0x5w4/kredit-plus/pkg/kafka"
 	loggerClient "github.com/0x5w4/kredit-plus/pkg/logger"
 	loggerInterceptor "github.com/0x5w4/kredit-plus/pkg/logger-interceptor"
+	readerService "github.com/0x5w4/kredit-plus/reader-service/proto/reader"
+	"github.com/go-playground/validator"
+	"github.com/labstack/echo/v4"
 	"google.golang.org/grpc"
 )
 
 type Server struct {
 	cfg               *config.Config
-	appLogger         *loggerClient.AppLogger
-	readerServiceConn *grpc.ClientConn
+	v                 *validator.Validate
+	logger            *loggerClient.AppLogger
+	echo              *echo.Echo
+	mw                middlewares.MiddlewareManager
 	loggerInterceptor loggerInterceptor.LoggerInterceptor
+	service           *service.KreditService
+	grpcClientConn    *grpc.ClientConn
+	readerClient      readerService.ReaderServiceClient
 }
 
 func NewServer(cfg *config.Config) *Server {
 	return &Server{
-		cfg: cfg,
+		cfg:  cfg,
+		v:    validator.New(),
+		echo: echo.New(),
 	}
 }
 
@@ -32,12 +45,24 @@ func (s Server) Run() error {
 	s.setupLogger()
 	s.setupLoggerInterceptor()
 
-	s.setupReaderServiceConn()
-	defer func() {
-		if err := s.readerServiceConn.Close(); err != nil {
-			s.appLogger.SLogger.Fatalf("Failed to close reader service connection:%v", err)
-		}
-	}()
+	s.setupMiddleware()
+
+	s.setupGrpcClient()
+	defer s.grpcClientConn.Close()
+
+	s.setupReaderServiceClient()
+
+	kafkaProducer := kafkaClient.NewProducer(s.cfg.Kafka.Brokers)
+	defer kafkaProducer.Close()
+
+	s.setupService(kafkaProducer)
+
+	s.setupHttpHandler(cancel)
+
+	<-ctx.Done()
+	if err := s.echo.Server.Shutdown(ctx); err != nil {
+		s.logger.SLogger.Warn("echo.Server.Shutdown", err)
+	}
 
 	return nil
 }

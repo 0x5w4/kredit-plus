@@ -1,0 +1,184 @@
+definitions:
+  dto.CreateKonsumenResponseDto:
+    properties:
+      id_konsumen:
+        type: string
+    required:
+    - id_konsumen
+    type: object
+  dto.CreateLimitResponseDto:
+    properties:
+      id_limit:
+        type: string
+    required:
+    - id_limit
+    type: object
+  dto.CreateTransaksiResponseDto:
+    properties:
+      id_transaksi:
+        type: string
+    required:
+    - id_transaksi
+    type: object
+  dto.GetLimitResponseDto:
+    properties:
+      batas_kredit:
+        minimum: 0
+        type: number
+      id_konsumen:
+        type: string
+      id_limit:
+        type: string
+      tenor:
+        minimum: 0
+        type: integer
+    required:
+    - batas_kredit
+    - id_konsumen
+    - id_limit
+    - tenor
+    type: object
+  dto.GetTransaksiResponseDto:
+    properties:
+      admin_fee:
+        minimum: 0
+        type: number
+      id_konsumen:
+        type: string
+      id_transaksi:
+        type: string
+      jenis_transaksi:
+        maxLength: 255
+        minLength: 0
+        type: string
+      jumlah_bunga:
+        minimum: 0
+        type: number
+      jumlah_cicilan:
+        minimum: 0
+        type: number
+      nama_asset:
+        maxLength: 255
+        minLength: 0
+        type: string
+      nomor_kontrak:
+        maxLength: 255
+        minLength: 0
+        type: string
+      otr:
+        type: integer
+      tanggal_transaksi:
+        type: string
+    required:
+    - admin_fee
+    - id_konsumen
+    - id_transaksi
+    - jenis_transaksi
+    - jumlah_bunga
+    - jumlah_cicilan
+    - nama_asset
+    - nomor_kontrak
+    - otr
+    - tanggal_transaksi
+    type: object
+info:
+  contact: {}
+paths:
+  /konsumen:
+    post:
+      consumes:
+      - application/json
+      description: Create new konsumen item
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.CreateKonsumenResponseDto'
+      summary: Create konsumen
+      tags:
+      - Kredit
+  /limit:
+    post:
+      consumes:
+      - application/json
+      description: Create new limit item
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.CreateLimitResponseDto'
+      summary: Create limit
+      tags:
+      - Kredit
+  /limit/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get limit by id
+      parameters:
+      - description: Id Limit
+        in: path
+        name: id_limit
+        required: true
+        type: string
+      - description: Id Konsumen
+        in: path
+        name: id_konsumen
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.GetLimitResponseDto'
+      summary: Get limit
+      tags:
+      - Kredit
+  /transaksi:
+    post:
+      consumes:
+      - application/json
+      description: Create new transaksi item
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.CreateTransaksiResponseDto'
+      summary: Create transaksi
+      tags:
+      - Kredit
+  /transaksi/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get transaksi by id
+      parameters:
+      - description: Id Transaksi
+        in: path
+        name: id_transaksi
+        required: true
+        type: string
+      - description: Id Konsumen
+        in: path
+        name: id_konsumen
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.GetTransaksiResponseDto'
+      summary: Get transaksi
+      tags:
+      - Kredit
+swagger: "2.0"

@@ -1,0 +1,271 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/konsumen": {
+            "post": {
+                "description": "Create new konsumen item",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Kredit"
+                ],
+                "summary": "Create konsumen",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateKonsumenResponseDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/limit": {
+            "post": {
+                "description": "Create new limit item",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Kredit"
+                ],
+                "summary": "Create limit",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateLimitResponseDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/limit/{id}": {
+            "get": {
+                "description": "Get limit by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Kredit"
+                ],
+                "summary": "Get limit",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Id Limit",
+                        "name": "id_limit",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Id Konsumen",
+                        "name": "id_konsumen",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.GetLimitResponseDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/transaksi": {
+            "post": {
+                "description": "Create new transaksi item",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Kredit"
+                ],
+                "summary": "Create transaksi",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateTransaksiResponseDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/transaksi/{id}": {
+            "get": {
+                "description": "Get transaksi by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Kredit"
+                ],
+                "summary": "Get transaksi",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Id Transaksi",
+                        "name": "id_transaksi",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Id Konsumen",
+                        "name": "id_konsumen",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.GetTransaksiResponseDto"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "dto.CreateKonsumenResponseDto": {
+            "type": "object",
+            "required": [
+                "id_konsumen"
+            ],
+            "properties": {
+                "id_konsumen": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateLimitResponseDto": {
+            "type": "object",
+            "required": [
+                "id_limit"
+            ],
+            "properties": {
+                "id_limit": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateTransaksiResponseDto": {
+            "type": "object",
+            "required": [
+                "id_transaksi"
+            ],
+            "properties": {
+                "id_transaksi": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.GetLimitResponseDto": {
+            "type": "object",
+            "required": [
+                "batas_kredit",
+                "id_konsumen",
+                "id_limit",
+                "tenor"
+            ],
+            "properties": {
+                "batas_kredit": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "id_konsumen": {
+                    "type": "string"
+                },
+                "id_limit": {
+                    "type": "string"
+                },
+                "tenor": {
+                    "type": "integer",
+                    "minimum": 0
+                }
+            }
+        },
+        "dto.GetTransaksiResponseDto": {
+            "type": "object",
+            "required": [
+                "admin_fee",
+                "id_konsumen",
+                "id_transaksi",
+                "jenis_transaksi",
+                "jumlah_bunga",
+                "jumlah_cicilan",
+                "nama_asset",
+                "nomor_kontrak",
+                "otr",
+                "tanggal_transaksi"
+            ],
+            "properties": {
+                "admin_fee": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "id_konsumen": {
+                    "type": "string"
+                },
+                "id_transaksi": {
+                    "type": "string"
+                },
+                "jenis_transaksi": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 0
+                },
+                "jumlah_bunga": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "jumlah_cicilan": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "nama_asset": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 0
+                },
+                "nomor_kontrak": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 0
+                },
+                "otr": {
+                    "type": "integer"
+                },
+                "tanggal_transaksi": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

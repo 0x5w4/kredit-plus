@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	grpcServer "github.com/0x5w4/kredit-plus/pkg/grpc-server"
 	kafkaClient "github.com/0x5w4/kredit-plus/pkg/kafka"
 	loggerClient "github.com/0x5w4/kredit-plus/pkg/logger"
 	"github.com/pkg/errors"
@@ -23,7 +24,7 @@ type Config struct {
 	Logger      loggerClient.Config `mapstructure:"logger"`
 	KafkaTopics KafkaTopics         `mapstructure:"kafkaTopics"`
 	Http        Http                `mapstructure:"http"`
-	Grpc        Grpc                `mapstructure:"grpc"`
+	GrpcClient  grpcServer.Config   `mapstructure:"grpcClient"`
 	Kafka       kafkaClient.Config  `mapstructure:"kafka"`
 }
 
@@ -31,15 +32,11 @@ type Http struct {
 	Port                string   `mapstructure:"port"`
 	Development         bool     `mapstructure:"development"`
 	BasePath            string   `mapstructure:"basePath"`
-	ProductsPath        string   `mapstructure:"productsPath"`
+	KreditPath          string   `mapstructure:"kreditPath"`
 	DebugHeaders        bool     `mapstructure:"debugHeaders"`
 	HttpClientDebug     bool     `mapstructure:"httpClientDebug"`
 	DebugErrorsResponse bool     `mapstructure:"debugErrorsResponse"`
 	IgnoreLogUrls       []string `mapstructure:"ignoreLogUrls"`
-}
-
-type Grpc struct {
-	ReaderServicePort string `mapstructure:"readerServicePort"`
 }
 
 type KafkaTopics struct {
@@ -87,7 +84,7 @@ func InitConfig() (*Config, error) {
 
 	readerServicePort := os.Getenv("READER_SERVICE")
 	if readerServicePort != "" {
-		cfg.Grpc.ReaderServicePort = readerServicePort
+		cfg.GrpcClient.Port = readerServicePort
 	}
 
 	return cfg, nil

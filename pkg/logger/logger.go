@@ -133,6 +133,17 @@ func (al *AppLogger) GrpcErrorLogger(gf *GrpcFields) {
 	)
 }
 
+func (l *AppLogger) HttpMiddlewareAccessLogger(method, uri string, status int, size int64, time time.Duration) {
+	l.Logger.Info(
+		"HTTP",
+		zap.String("method", method),
+		zap.String("uri", uri),
+		zap.Int("status", status),
+		zap.Int64("size", size),
+		zap.Duration("time", time),
+	)
+}
+
 // StructuredPrint logs the given LogFields.
 func (al *AppLogger) StructuredPrint(lf *LogFields) {
 	if lf == nil {

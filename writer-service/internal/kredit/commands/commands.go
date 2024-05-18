@@ -61,8 +61,8 @@ func NewCreateKonsumenCommand(
 type CreateLimitCommand struct {
 	IdLimit     uuid.UUID `json:"id_limit" validate:"required"`
 	IdKonsumen  uuid.UUID `json:"id_konsumen" validate:"required"`
-	Tenor       uint32    `json:"tenor" validate:"required"`
-	BatasKredit float64   `json:"batas_kredit" validate:"required"`
+	Tenor       uint32    `json:"tenor" validate:"required,gte=0"`
+	BatasKredit float64   `json:"batas_kredit" validate:"required,gte=0"`
 }
 
 func NewCreateLimitCommand(
@@ -82,14 +82,14 @@ func NewCreateLimitCommand(
 type CreateTransaksiCommand struct {
 	IdTransaksi      uuid.UUID `json:"id_transaksi" validate:"required"`
 	IdKonsumen       uuid.UUID `json:"id_konsumen" validate:"required"`
-	NomorKontrak     string    `json:"nomor_kontrak" validate:"required"`
+	NomorKontrak     string    `json:"nomor_kontrak" validate:"required,gte=0,lte=255"`
 	TanggalTransaksi time.Time `json:"tanggal_transaksi" validate:"required"`
 	Otr              uint64    `json:"otr" validate:"required"`
-	AdminFee         float64   `json:"admin_fee" validate:"required"`
-	JumlahCicilan    float64   `json:"jumlah_cicilan" validate:"required"`
-	JumlahBunga      float64   `json:"jumlah_bunga" validate:"required"`
-	NamaAsset        string    `json:"nama_asset" validate:"required"`
-	JenisTransaksi   string    `json:"jenis_transaksi" validate:"required"`
+	AdminFee         float64   `json:"admin_fee" validate:"required,gte=0"`
+	JumlahCicilan    float64   `json:"jumlah_cicilan" validate:"required,gte=0"`
+	JumlahBunga      float64   `json:"jumlah_bunga" validate:"required,gte=0"`
+	NamaAsset        string    `json:"nama_asset" validate:"required,gte=0,lte=255"`
+	JenisTransaksi   string    `json:"jenis_transaksi" validate:"required,gte=0,lte=255"`
 }
 
 func NewCreateTransaksiCommand(
