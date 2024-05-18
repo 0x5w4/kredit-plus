@@ -8,7 +8,6 @@ import (
 
 	"github.com/0x5w4/kredit-plus/api-gateway-service/config"
 	"github.com/0x5w4/kredit-plus/api-gateway-service/internal/kredit/service"
-	"github.com/0x5w4/kredit-plus/api-gateway-service/internal/middlewares"
 	kafkaClient "github.com/0x5w4/kredit-plus/pkg/kafka"
 	loggerClient "github.com/0x5w4/kredit-plus/pkg/logger"
 	loggerInterceptor "github.com/0x5w4/kredit-plus/pkg/logger-interceptor"
@@ -23,7 +22,6 @@ type Server struct {
 	v                 *validator.Validate
 	logger            *loggerClient.AppLogger
 	echo              *echo.Echo
-	mw                middlewares.MiddlewareManager
 	loggerInterceptor loggerInterceptor.LoggerInterceptor
 	service           *service.KreditService
 	grpcClientConn    *grpc.ClientConn
@@ -32,9 +30,8 @@ type Server struct {
 
 func NewServer(cfg *config.Config) *Server {
 	return &Server{
-		cfg:  cfg,
-		v:    validator.New(),
-		echo: echo.New(),
+		cfg: cfg,
+		v:   validator.New(),
 	}
 }
 
@@ -43,10 +40,8 @@ func (s Server) Run() error {
 	defer cancel()
 
 	s.setupLogger()
+
 	s.setupLoggerInterceptor()
-
-	s.setupMiddleware()
-
 	s.setupGrpcClient()
 	defer s.grpcClientConn.Close()
 
@@ -57,12 +52,16 @@ func (s Server) Run() error {
 
 	s.setupService(kafkaProducer)
 
-	s.setupHttpHandler(cancel)
+	s.setupEcho()
+
+	s.setupSwagger()
+
+	s.setupHttpHandler()
+
+	go s.runEcho(cancel)
+	defer s.echo.Server.Shutdown(ctx)
 
 	<-ctx.Done()
-	if err := s.echo.Server.Shutdown(ctx); err != nil {
-		s.logger.SLogger.Warn("echo.Server.Shutdown", err)
-	}
 
 	return nil
 }

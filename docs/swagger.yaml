@@ -1,4 +1,55 @@
+basePath: /api/v1
 definitions:
+  dto.CreateKonsumenRequestDto:
+    properties:
+      email:
+        maxLength: 255
+        minLength: 0
+        type: string
+      foto_ktp:
+        type: string
+      foto_selfie:
+        type: string
+      full_name:
+        maxLength: 255
+        minLength: 0
+        type: string
+      gaji:
+        minimum: 0
+        type: number
+      id_konsumen:
+        type: string
+      legal_name:
+        maxLength: 255
+        minLength: 0
+        type: string
+      nik:
+        maxLength: 255
+        minLength: 0
+        type: string
+      password:
+        maxLength: 255
+        minLength: 0
+        type: string
+      tanggal_lahir:
+        type: string
+      tempat_lahir:
+        maxLength: 255
+        minLength: 0
+        type: string
+    required:
+    - email
+    - foto_ktp
+    - foto_selfie
+    - full_name
+    - gaji
+    - id_konsumen
+    - legal_name
+    - nik
+    - password
+    - tanggal_lahir
+    - tempat_lahir
+    type: object
   dto.CreateKonsumenResponseDto:
     properties:
       id_konsumen:
@@ -6,12 +57,73 @@ definitions:
     required:
     - id_konsumen
     type: object
+  dto.CreateLimitRequestDto:
+    properties:
+      batas_kredit:
+        minimum: 0
+        type: number
+      id_konsumen:
+        type: string
+      id_limit:
+        type: string
+      tenor:
+        minimum: 0
+        type: integer
+    required:
+    - batas_kredit
+    - id_konsumen
+    - id_limit
+    - tenor
+    type: object
   dto.CreateLimitResponseDto:
     properties:
       id_limit:
         type: string
     required:
     - id_limit
+    type: object
+  dto.CreateTransaksiRequestDto:
+    properties:
+      admin_fee:
+        minimum: 0
+        type: number
+      id_konsumen:
+        type: string
+      id_transaksi:
+        type: string
+      jenis_transaksi:
+        maxLength: 255
+        minLength: 0
+        type: string
+      jumlah_bunga:
+        minimum: 0
+        type: number
+      jumlah_cicilan:
+        minimum: 0
+        type: number
+      nama_asset:
+        maxLength: 255
+        minLength: 0
+        type: string
+      nomor_kontrak:
+        maxLength: 255
+        minLength: 0
+        type: string
+      otr:
+        type: integer
+      tanggal_transaksi:
+        type: string
+    required:
+    - admin_fee
+    - id_konsumen
+    - id_transaksi
+    - jenis_transaksi
+    - jumlah_bunga
+    - jumlah_cicilan
+    - nama_asset
+    - nomor_kontrak
+    - otr
+    - tanggal_transaksi
     type: object
   dto.CreateTransaksiResponseDto:
     properties:
@@ -81,14 +193,32 @@ definitions:
     - otr
     - tanggal_transaksi
     type: object
+host: localhost:5001
 info:
-  contact: {}
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample API on Kredit Plus Microservice.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: API Gateway Kredit Plus
+  version: "1.0"
 paths:
   /konsumen:
     post:
       consumes:
       - application/json
       description: Create new konsumen item
+      parameters:
+      - description: Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateKonsumenRequestDto'
       produces:
       - application/json
       responses:
@@ -104,6 +234,13 @@ paths:
       consumes:
       - application/json
       description: Create new limit item
+      parameters:
+      - description: Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateLimitRequestDto'
       produces:
       - application/json
       responses:
@@ -145,6 +282,13 @@ paths:
       consumes:
       - application/json
       description: Create new transaksi item
+      parameters:
+      - description: Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateTransaksiRequestDto'
       produces:
       - application/json
       responses:

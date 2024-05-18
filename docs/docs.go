@@ -10,7 +10,16 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -29,6 +38,17 @@ const docTemplate = `{
                     "Kredit"
                 ],
                 "summary": "Create konsumen",
+                "parameters": [
+                    {
+                        "description": "Request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateKonsumenRequestDto"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
@@ -52,6 +72,17 @@ const docTemplate = `{
                     "Kredit"
                 ],
                 "summary": "Create limit",
+                "parameters": [
+                    {
+                        "description": "Request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateLimitRequestDto"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
@@ -114,6 +145,17 @@ const docTemplate = `{
                     "Kredit"
                 ],
                 "summary": "Create transaksi",
+                "parameters": [
+                    {
+                        "description": "Request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateTransaksiRequestDto"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
@@ -165,6 +207,70 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "dto.CreateKonsumenRequestDto": {
+            "type": "object",
+            "required": [
+                "email",
+                "foto_ktp",
+                "foto_selfie",
+                "full_name",
+                "gaji",
+                "id_konsumen",
+                "legal_name",
+                "nik",
+                "password",
+                "tanggal_lahir",
+                "tempat_lahir"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 0
+                },
+                "foto_ktp": {
+                    "type": "string"
+                },
+                "foto_selfie": {
+                    "type": "string"
+                },
+                "full_name": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 0
+                },
+                "gaji": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "id_konsumen": {
+                    "type": "string"
+                },
+                "legal_name": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 0
+                },
+                "nik": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 0
+                },
+                "password": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 0
+                },
+                "tanggal_lahir": {
+                    "type": "string"
+                },
+                "tempat_lahir": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 0
+                }
+            }
+        },
         "dto.CreateKonsumenResponseDto": {
             "type": "object",
             "required": [
@@ -176,6 +282,31 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.CreateLimitRequestDto": {
+            "type": "object",
+            "required": [
+                "batas_kredit",
+                "id_konsumen",
+                "id_limit",
+                "tenor"
+            ],
+            "properties": {
+                "batas_kredit": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "id_konsumen": {
+                    "type": "string"
+                },
+                "id_limit": {
+                    "type": "string"
+                },
+                "tenor": {
+                    "type": "integer",
+                    "minimum": 0
+                }
+            }
+        },
         "dto.CreateLimitResponseDto": {
             "type": "object",
             "required": [
@@ -183,6 +314,62 @@ const docTemplate = `{
             ],
             "properties": {
                 "id_limit": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateTransaksiRequestDto": {
+            "type": "object",
+            "required": [
+                "admin_fee",
+                "id_konsumen",
+                "id_transaksi",
+                "jenis_transaksi",
+                "jumlah_bunga",
+                "jumlah_cicilan",
+                "nama_asset",
+                "nomor_kontrak",
+                "otr",
+                "tanggal_transaksi"
+            ],
+            "properties": {
+                "admin_fee": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "id_konsumen": {
+                    "type": "string"
+                },
+                "id_transaksi": {
+                    "type": "string"
+                },
+                "jenis_transaksi": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 0
+                },
+                "jumlah_bunga": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "jumlah_cicilan": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "nama_asset": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 0
+                },
+                "nomor_kontrak": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 0
+                },
+                "otr": {
+                    "type": "integer"
+                },
+                "tanggal_transaksi": {
                     "type": "string"
                 }
             }
@@ -284,12 +471,12 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
-	Host:             "",
-	BasePath:         "",
+	Version:          "1.0",
+	Host:             "localhost:5001",
+	BasePath:         "/api/v1",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "API Gateway Kredit Plus",
+	Description:      "This is a sample API on Kredit Plus Microservice.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

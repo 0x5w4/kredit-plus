@@ -1,13 +1,13 @@
 .PHONY:
 
 run_api_gateway:
-	go run api_gateway_service/cmd/main.go -config=./api_gateway_service/config/config.yaml
+	go run api-gateway-service/cmd/main.go -config=./api-gateway-service/config/config.yaml
 
-run_writer_microservice:
-	go run writer_service/cmd/main.go -config=./writer_service/config/config.yaml
+run_writer:
+	go run writer-service/cmd/main.go -config=./writer-service/config/config.yaml
 
-run_reader_microservice:
-	go run writer_service/cmd/main.go -config=./writer_service/config/config.yaml
+run_reader:
+	go run reader-service/cmd/main.go -config=./reader-service/config/config.yaml
 
 # ==============================================================================
 # Docker
@@ -109,6 +109,7 @@ mongo:
 
 swagger:
 	@echo Starting swagger generating
+	go install github.com/swaggo/swag/cmd/swag@latest
 	swag init -g **/**/*.go
 
 # ==============================================================================

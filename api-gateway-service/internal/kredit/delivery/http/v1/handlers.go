@@ -8,7 +8,6 @@ import (
 	"github.com/0x5w4/kredit-plus/api-gateway-service/internal/kredit/commands"
 	"github.com/0x5w4/kredit-plus/api-gateway-service/internal/kredit/queries"
 	"github.com/0x5w4/kredit-plus/api-gateway-service/internal/kredit/service"
-	"github.com/0x5w4/kredit-plus/api-gateway-service/internal/middlewares"
 	httpErrors "github.com/0x5w4/kredit-plus/pkg/http_errors"
 	"github.com/0x5w4/kredit-plus/pkg/logger"
 	"github.com/go-playground/validator"
@@ -19,7 +18,6 @@ import (
 type kreditHandler struct {
 	group  *echo.Group
 	logger *logger.AppLogger
-	mw     middlewares.MiddlewareManager
 	cfg    *config.Config
 	ps     *service.KreditService
 	v      *validator.Validate
@@ -28,12 +26,11 @@ type kreditHandler struct {
 func NewKreditHandler(
 	group *echo.Group,
 	logger *logger.AppLogger,
-	mw middlewares.MiddlewareManager,
 	cfg *config.Config,
 	ps *service.KreditService,
 	v *validator.Validate,
 ) *kreditHandler {
-	return &kreditHandler{group: group, logger: logger, mw: mw, cfg: cfg, ps: ps, v: v}
+	return &kreditHandler{group: group, logger: logger, cfg: cfg, ps: ps, v: v}
 }
 
 // CreateKonsumen
@@ -42,6 +39,7 @@ func NewKreditHandler(
 // @Description Create new konsumen item
 // @Accept json
 // @Produce json
+// @Param request body dto.CreateKonsumenRequestDto true "Request"
 // @Success 201 {object} dto.CreateKonsumenResponseDto
 // @Router /konsumen [post]
 func (h *kreditHandler) CreateKonsumen() echo.HandlerFunc {
@@ -80,6 +78,7 @@ func (h *kreditHandler) CreateKonsumen() echo.HandlerFunc {
 // @Description Create new limit item
 // @Accept json
 // @Produce json
+// @Param request body dto.CreateLimitRequestDto true "Request"
 // @Success 201 {object} dto.CreateLimitResponseDto
 // @Router /limit [post]
 func (h *kreditHandler) CreateLimit() echo.HandlerFunc {
@@ -118,6 +117,7 @@ func (h *kreditHandler) CreateLimit() echo.HandlerFunc {
 // @Description Create new transaksi item
 // @Accept json
 // @Produce json
+// @Param request body dto.CreateTransaksiRequestDto true "Request"
 // @Success 201 {object} dto.CreateTransaksiResponseDto
 // @Router /transaksi [post]
 func (h *kreditHandler) CreateTransaksi() echo.HandlerFunc {
