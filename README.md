@@ -9,9 +9,9 @@
 ![](./misc/img/3.png)
 ### Create Limit
 ![](./misc/img/4.png)
-### Create Transaksi
-![](./misc/img/5.png)
 ### Get Limit
+![](./misc/img/5.png)
+### Create Transaksi
 ![](./misc/img/6.png)
 ### Get Transaksi
 ![](./misc/img/7.png)
