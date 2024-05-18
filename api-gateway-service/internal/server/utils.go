@@ -28,14 +28,8 @@ func (s *Server) setupLoggerInterceptor() {
 	s.loggerInterceptor = loggerInterceptor.NewLoggerInterceptor(s.logger)
 }
 
-func (s *Server) setupMiddleware() error {
-	var err error
+func (s *Server) setupMiddleware() {
 	s.mw = middlewares.NewMiddlewareManager(s.logger, s.cfg)
-	if err != nil {
-		return err
-	}
-
-	return nil
 }
 
 func (s *Server) setupGrpcClient() error {
@@ -49,12 +43,7 @@ func (s *Server) setupGrpcClient() error {
 }
 
 func (s *Server) setupReaderServiceClient() error {
-	var err error
 	s.readerClient = readerService.NewReaderServiceClient(s.grpcClientConn)
-	if err != nil {
-		return err
-	}
-
 	return nil
 }
 
