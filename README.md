@@ -15,3 +15,10 @@
 ![](./misc/img/6.png)
 ### Get Transaksi
 ![](./misc/img/7.png)
+
+### Migrations
+[migration up](./migrations/01_microservices_tables_init.up.sql)
+
+[migration down](./migrations/01_microservices_tables_init.down.sql)
+
+[sql queries](./writer-service/internal/kredit/repository/sql_queries.go)
