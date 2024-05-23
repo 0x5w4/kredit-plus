@@ -38,7 +38,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.CreateKonsumenRequestDto"
+                            "$ref": "#/definitions/dto.CreateKonsumenHttpRequest"
                         }
                     }
                 ],
@@ -72,7 +72,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.CreateLimitRequestDto"
+                            "$ref": "#/definitions/dto.CreateLimitHttpRequest"
                         }
                     }
                 ],
@@ -145,7 +145,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.CreateTransaksiRequestDto"
+                            "$ref": "#/definitions/dto.CreateTransaksiHttpRequest"
                         }
                     }
                 ],
@@ -200,7 +200,7 @@
         }
     },
     "definitions": {
-        "dto.CreateKonsumenRequestDto": {
+        "dto.CreateKonsumenHttpRequest": {
             "type": "object",
             "required": [
                 "email",
@@ -208,7 +208,6 @@
                 "foto_selfie",
                 "full_name",
                 "gaji",
-                "id_konsumen",
                 "legal_name",
                 "nik",
                 "password",
@@ -233,11 +232,8 @@
                     "minLength": 0
                 },
                 "gaji": {
-                    "type": "number",
+                    "type": "integer",
                     "minimum": 0
-                },
-                "id_konsumen": {
-                    "type": "string"
                 },
                 "legal_name": {
                     "type": "string",
@@ -275,23 +271,19 @@
                 }
             }
         },
-        "dto.CreateLimitRequestDto": {
+        "dto.CreateLimitHttpRequest": {
             "type": "object",
             "required": [
                 "batas_kredit",
                 "id_konsumen",
-                "id_limit",
                 "tenor"
             ],
             "properties": {
                 "batas_kredit": {
-                    "type": "number",
+                    "type": "integer",
                     "minimum": 0
                 },
                 "id_konsumen": {
-                    "type": "string"
-                },
-                "id_limit": {
                     "type": "string"
                 },
                 "tenor": {
@@ -311,12 +303,11 @@
                 }
             }
         },
-        "dto.CreateTransaksiRequestDto": {
+        "dto.CreateTransaksiHttpRequest": {
             "type": "object",
             "required": [
                 "admin_fee",
                 "id_konsumen",
-                "id_transaksi",
                 "jenis_transaksi",
                 "jumlah_bunga",
                 "jumlah_cicilan",
@@ -327,13 +318,10 @@
             ],
             "properties": {
                 "admin_fee": {
-                    "type": "number",
+                    "type": "integer",
                     "minimum": 0
                 },
                 "id_konsumen": {
-                    "type": "string"
-                },
-                "id_transaksi": {
                     "type": "string"
                 },
                 "jenis_transaksi": {
@@ -342,11 +330,11 @@
                     "minLength": 0
                 },
                 "jumlah_bunga": {
-                    "type": "number",
+                    "type": "integer",
                     "minimum": 0
                 },
                 "jumlah_cicilan": {
-                    "type": "number",
+                    "type": "integer",
                     "minimum": 0
                 },
                 "nama_asset": {

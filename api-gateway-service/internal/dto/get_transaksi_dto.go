@@ -7,6 +7,11 @@ import (
 	uuid "github.com/google/uuid"
 )
 
+type GetTransaksiHttpRequest struct {
+	IdTransaksi string `json:"id_transaksi" validate:"required"`
+	IdKonsumen  string `json:"id_konsumen" validate:"required"`
+}
+
 type GetTransaksiRequestDto struct {
 	IdTransaksi uuid.UUID `json:"id_transaksi" validate:"required"`
 	IdKonsumen  uuid.UUID `json:"id_konsumen" validate:"required"`

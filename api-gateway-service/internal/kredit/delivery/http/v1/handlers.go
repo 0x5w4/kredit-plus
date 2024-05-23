@@ -1,11 +1,13 @@
 package v1
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/0x5w4/kredit-plus/api-gateway-service/config"
 	"github.com/0x5w4/kredit-plus/api-gateway-service/internal/dto"
 	"github.com/0x5w4/kredit-plus/api-gateway-service/internal/kredit/commands"
+	"github.com/0x5w4/kredit-plus/api-gateway-service/internal/kredit/mapper"
 	"github.com/0x5w4/kredit-plus/api-gateway-service/internal/kredit/queries"
 	"github.com/0x5w4/kredit-plus/api-gateway-service/internal/kredit/service"
 	httpErrors "github.com/0x5w4/kredit-plus/pkg/http_errors"
@@ -39,31 +41,38 @@ func NewKreditHandler(
 // @Description Create new konsumen item
 // @Accept json
 // @Produce json
-// @Param request body dto.CreateKonsumenRequestDto true "Request"
+// @Param request body dto.CreateKonsumenHttpRequest true "Request"
 // @Success 201 {object} dto.CreateKonsumenResponseDto
 // @Router /konsumen [post]
 func (h *kreditHandler) CreateKonsumen() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ctx := c.Request().Context()
-		createKonsumenRequest := &dto.CreateKonsumenRequestDto{}
-		if err := c.Bind(createKonsumenRequest); err != nil {
+		httpRequest := &dto.CreateKonsumenHttpRequest{}
+		if err := c.Bind(httpRequest); err != nil {
 			h.logger.SLogger.Warn("Bind", err)
 			return httpErrors.ErrorCtxResponse(c, err, h.cfg.Http.DebugErrorsResponse)
 		}
 
-		var err error
+		createKonsumenRequest, err := mapper.CreateKonsumenHttpToDto(*httpRequest)
+		if err != nil {
+			h.logger.SLogger.Warn("mapper.CreateKonsumenHttpToDto", err)
+			return httpErrors.ErrorCtxResponse(c, err, h.cfg.Http.DebugErrorsResponse)
+		}
+
 		createKonsumenRequest.IdKonsumen, err = uuid.NewV7()
 		if err != nil {
 			h.logger.SLogger.Warn("uuid.NewV7", err)
 			return httpErrors.ErrorCtxResponse(c, err, h.cfg.Http.DebugErrorsResponse)
 		}
 
+		fmt.Println(createKonsumenRequest)
 		if err := h.v.StructCtx(ctx, createKonsumenRequest); err != nil {
 			h.logger.SLogger.Warn("validate", err)
 			return httpErrors.ErrorCtxResponse(c, err, h.cfg.Http.DebugErrorsResponse)
 		}
 
-		if err := h.ps.Commands.CreateKonsumen.Handle(ctx, commands.NewCreateKonsumenCommand(createKonsumenRequest)); err != nil {
+		fmt.Println("4---------------------------")
+		if err := h.ps.Commands.CreateKonsumen.Handle(ctx, commands.NewCreateKonsumenCommand(&createKonsumenRequest)); err != nil {
 			h.logger.SLogger.Warn("CreateKonsumen", err)
 			return httpErrors.ErrorCtxResponse(c, err, h.cfg.Http.DebugErrorsResponse)
 		}
@@ -78,31 +87,39 @@ func (h *kreditHandler) CreateKonsumen() echo.HandlerFunc {
 // @Description Create new limit item
 // @Accept json
 // @Produce json
-// @Param request body dto.CreateLimitRequestDto true "Request"
+// @Param request body dto.CreateLimitHttpRequest true "Request"
 // @Success 201 {object} dto.CreateLimitResponseDto
 // @Router /limit [post]
 func (h *kreditHandler) CreateLimit() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ctx := c.Request().Context()
-		createLimitRequest := &dto.CreateLimitRequestDto{}
-		if err := c.Bind(createLimitRequest); err != nil {
+		httpRequest := &dto.CreateLimitHttpRequest{}
+		if err := c.Bind(httpRequest); err != nil {
 			h.logger.SLogger.Warn("Bind", err)
 			return httpErrors.ErrorCtxResponse(c, err, h.cfg.Http.DebugErrorsResponse)
 		}
 
-		var err error
+		createLimitRequest, err := mapper.CreateLimitHttpToDto(*httpRequest)
+		if err != nil {
+			fmt.Println(err)
+			h.logger.SLogger.Warn("mapper.CreateLimitHttpToDto", err)
+			return httpErrors.ErrorCtxResponse(c, err, h.cfg.Http.DebugErrorsResponse)
+		}
+
 		createLimitRequest.IdLimit, err = uuid.NewV7()
 		if err != nil {
 			h.logger.SLogger.Warn("uuid.NewV7", err)
 			return httpErrors.ErrorCtxResponse(c, err, h.cfg.Http.DebugErrorsResponse)
 		}
 
+		fmt.Println(createLimitRequest)
 		if err := h.v.StructCtx(ctx, createLimitRequest); err != nil {
 			h.logger.SLogger.Warn("validate", err)
 			return httpErrors.ErrorCtxResponse(c, err, h.cfg.Http.DebugErrorsResponse)
 		}
 
-		if err := h.ps.Commands.CreateLimit.Handle(ctx, commands.NewCreateLimitCommand(createLimitRequest)); err != nil {
+		fmt.Println("4---------------------------")
+		if err := h.ps.Commands.CreateLimit.Handle(ctx, commands.NewCreateLimitCommand(&createLimitRequest)); err != nil {
 			h.logger.SLogger.Warn("CreateLimit", err)
 			return httpErrors.ErrorCtxResponse(c, err, h.cfg.Http.DebugErrorsResponse)
 		}
@@ -117,31 +134,38 @@ func (h *kreditHandler) CreateLimit() echo.HandlerFunc {
 // @Description Create new transaksi item
 // @Accept json
 // @Produce json
-// @Param request body dto.CreateTransaksiRequestDto true "Request"
+// @Param request body dto.CreateTransaksiHttpRequest true "Request"
 // @Success 201 {object} dto.CreateTransaksiResponseDto
 // @Router /transaksi [post]
 func (h *kreditHandler) CreateTransaksi() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ctx := c.Request().Context()
-		createTransaksiRequest := &dto.CreateTransaksiRequestDto{}
-		if err := c.Bind(createTransaksiRequest); err != nil {
+		httpRequest := &dto.CreateTransaksiHttpRequest{}
+		if err := c.Bind(httpRequest); err != nil {
 			h.logger.SLogger.Warn("Bind", err)
 			return httpErrors.ErrorCtxResponse(c, err, h.cfg.Http.DebugErrorsResponse)
 		}
 
-		var err error
+		createTransaksiRequest, err := mapper.CreateTransaksiHttpToDto(*httpRequest)
+		if err != nil {
+			h.logger.SLogger.Warn("mapper.CreateKonsumenHttpToDto", err)
+			return httpErrors.ErrorCtxResponse(c, err, h.cfg.Http.DebugErrorsResponse)
+		}
+
 		createTransaksiRequest.IdTransaksi, err = uuid.NewV7()
 		if err != nil {
 			h.logger.SLogger.Warn("uuid.NewV7", err)
 			return httpErrors.ErrorCtxResponse(c, err, h.cfg.Http.DebugErrorsResponse)
 		}
 
+		fmt.Println(createTransaksiRequest)
 		if err := h.v.StructCtx(ctx, createTransaksiRequest); err != nil {
 			h.logger.SLogger.Warn("validate", err)
 			return httpErrors.ErrorCtxResponse(c, err, h.cfg.Http.DebugErrorsResponse)
 		}
 
-		if err := h.ps.Commands.CreateTransaksi.Handle(ctx, commands.NewCreateTransaksiCommand(createTransaksiRequest)); err != nil {
+		fmt.Println("4---------------------------")
+		if err := h.ps.Commands.CreateTransaksi.Handle(ctx, commands.NewCreateTransaksiCommand(&createTransaksiRequest)); err != nil {
 			h.logger.SLogger.Warn("CreateTransaksi", err)
 			return httpErrors.ErrorCtxResponse(c, err, h.cfg.Http.DebugErrorsResponse)
 		}

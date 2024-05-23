@@ -5,7 +5,7 @@ http:
   port: :5001
   development: true
   basePath: /api/v1
-  kreditPath: /api/v1/kredit
+  kreditPath: /api/v1
   debugHeaders: false
   httpClientDebug: false
   debugErrorsResponse: true

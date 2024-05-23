@@ -1,6 +1,6 @@
 basePath: /api/v1
 definitions:
-  dto.CreateKonsumenRequestDto:
+  dto.CreateKonsumenHttpRequest:
     properties:
       email:
         maxLength: 255
@@ -16,9 +16,7 @@ definitions:
         type: string
       gaji:
         minimum: 0
-        type: number
-      id_konsumen:
-        type: string
+        type: integer
       legal_name:
         maxLength: 255
         minLength: 0
@@ -43,7 +41,6 @@ definitions:
     - foto_selfie
     - full_name
     - gaji
-    - id_konsumen
     - legal_name
     - nik
     - password
@@ -57,14 +54,12 @@ definitions:
     required:
     - id_konsumen
     type: object
-  dto.CreateLimitRequestDto:
+  dto.CreateLimitHttpRequest:
     properties:
       batas_kredit:
         minimum: 0
-        type: number
+        type: integer
       id_konsumen:
-        type: string
-      id_limit:
         type: string
       tenor:
         minimum: 0
@@ -72,7 +67,6 @@ definitions:
     required:
     - batas_kredit
     - id_konsumen
-    - id_limit
     - tenor
     type: object
   dto.CreateLimitResponseDto:
@@ -82,14 +76,12 @@ definitions:
     required:
     - id_limit
     type: object
-  dto.CreateTransaksiRequestDto:
+  dto.CreateTransaksiHttpRequest:
     properties:
       admin_fee:
         minimum: 0
-        type: number
+        type: integer
       id_konsumen:
-        type: string
-      id_transaksi:
         type: string
       jenis_transaksi:
         maxLength: 255
@@ -97,10 +89,10 @@ definitions:
         type: string
       jumlah_bunga:
         minimum: 0
-        type: number
+        type: integer
       jumlah_cicilan:
         minimum: 0
-        type: number
+        type: integer
       nama_asset:
         maxLength: 255
         minLength: 0
@@ -116,7 +108,6 @@ definitions:
     required:
     - admin_fee
     - id_konsumen
-    - id_transaksi
     - jenis_transaksi
     - jumlah_bunga
     - jumlah_cicilan
@@ -218,7 +209,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/dto.CreateKonsumenRequestDto'
+          $ref: '#/definitions/dto.CreateKonsumenHttpRequest'
       produces:
       - application/json
       responses:
@@ -240,7 +231,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/dto.CreateLimitRequestDto'
+          $ref: '#/definitions/dto.CreateLimitHttpRequest'
       produces:
       - application/json
       responses:
@@ -288,7 +279,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/dto.CreateTransaksiRequestDto'
+          $ref: '#/definitions/dto.CreateTransaksiHttpRequest'
       produces:
       - application/json
       responses:

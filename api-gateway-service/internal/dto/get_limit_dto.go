@@ -6,6 +6,11 @@ import (
 	readerService "github.com/0x5w4/kredit-plus/reader-service/proto/reader"
 )
 
+type GetLimitHttpRequest struct {
+	IdLimit    string `json:"id_limit" validate:"required"`
+	IdKonsumen string `json:"id_konsumen" validate:"required"`
+}
+
 type GetLimitRequestDto struct {
 	IdLimit    uuid.UUID `json:"id_limit" validate:"required"`
 	IdKonsumen uuid.UUID `json:"id_konsumen" validate:"required"`

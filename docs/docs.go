@@ -45,7 +45,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.CreateKonsumenRequestDto"
+                            "$ref": "#/definitions/dto.CreateKonsumenHttpRequest"
                         }
                     }
                 ],
@@ -79,7 +79,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.CreateLimitRequestDto"
+                            "$ref": "#/definitions/dto.CreateLimitHttpRequest"
                         }
                     }
                 ],
@@ -152,7 +152,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.CreateTransaksiRequestDto"
+                            "$ref": "#/definitions/dto.CreateTransaksiHttpRequest"
                         }
                     }
                 ],
@@ -207,7 +207,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "dto.CreateKonsumenRequestDto": {
+        "dto.CreateKonsumenHttpRequest": {
             "type": "object",
             "required": [
                 "email",
@@ -215,7 +215,6 @@ const docTemplate = `{
                 "foto_selfie",
                 "full_name",
                 "gaji",
-                "id_konsumen",
                 "legal_name",
                 "nik",
                 "password",
@@ -240,11 +239,8 @@ const docTemplate = `{
                     "minLength": 0
                 },
                 "gaji": {
-                    "type": "number",
+                    "type": "integer",
                     "minimum": 0
-                },
-                "id_konsumen": {
-                    "type": "string"
                 },
                 "legal_name": {
                     "type": "string",
@@ -282,23 +278,19 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.CreateLimitRequestDto": {
+        "dto.CreateLimitHttpRequest": {
             "type": "object",
             "required": [
                 "batas_kredit",
                 "id_konsumen",
-                "id_limit",
                 "tenor"
             ],
             "properties": {
                 "batas_kredit": {
-                    "type": "number",
+                    "type": "integer",
                     "minimum": 0
                 },
                 "id_konsumen": {
-                    "type": "string"
-                },
-                "id_limit": {
                     "type": "string"
                 },
                 "tenor": {
@@ -318,12 +310,11 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.CreateTransaksiRequestDto": {
+        "dto.CreateTransaksiHttpRequest": {
             "type": "object",
             "required": [
                 "admin_fee",
                 "id_konsumen",
-                "id_transaksi",
                 "jenis_transaksi",
                 "jumlah_bunga",
                 "jumlah_cicilan",
@@ -334,13 +325,10 @@ const docTemplate = `{
             ],
             "properties": {
                 "admin_fee": {
-                    "type": "number",
+                    "type": "integer",
                     "minimum": 0
                 },
                 "id_konsumen": {
-                    "type": "string"
-                },
-                "id_transaksi": {
                     "type": "string"
                 },
                 "jenis_transaksi": {
@@ -349,11 +337,11 @@ const docTemplate = `{
                     "minLength": 0
                 },
                 "jumlah_bunga": {
-                    "type": "number",
+                    "type": "integer",
                     "minimum": 0
                 },
                 "jumlah_cicilan": {
-                    "type": "number",
+                    "type": "integer",
                     "minimum": 0
                 },
                 "nama_asset": {
